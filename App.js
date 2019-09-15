@@ -1,0 +1,88 @@
+import React, {Fragment, Component} from 'react';
+import { StyleSheet, Text, View, Image} from 'react-native';
+import { AddWoman } from './containers/AddWoman'
+import {ListWoman} from './containers/ListWoman'
+import {WomanProfile} from './containers/WomanProfile'
+
+import {createAppContainer} from 'react-navigation'
+import {createStackNavigator} from 'react-navigation-stack'
+
+const Navigator = createStackNavigator({
+  listWoman: ListWoman,
+  addWoman: AddWoman,
+  womanProfile: WomanProfile,
+}, {
+  initialRouteName: 'listWoman',
+})
+
+const NavigatorContainer = createAppContainer(Navigator)
+
+class Alert extends Component {
+  state = { isShowing: false }
+
+  time = setInterval(() => {
+    this.setState({ isShowing: !this.state.isShowing })
+  }, 1000);
+
+  render() {
+    return this.state.isShowing ? <Text style={styles.alert}>Ela é foda!!!</Text> : <Text style={styles.alert2}>Ela é foda!!!</Text>
+  }
+}
+
+// imagem, nome, descricao
+const HeaderProfile = (props)=> {
+  return(
+    <Fragment>
+      <View style={styles.headerProfileContainer}>
+        <Image source={{uri: props.imgUrl}} style={styles.image}/>
+        <View>
+          <Text>{props.nome}</Text>  
+          <Text>{props.description}</Text> 
+        </View>
+      </View>
+      <Alert/>
+    </Fragment>
+  )
+}
+
+export default function App() {
+  return (
+    // <View style={styles.container}>
+    //   {/* <HeaderProfile
+    //     nome = {'Mayara'}
+    //     description = {'Descrição'}
+    //     imgUrl={'data:image/jpeg;base64,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'}
+    //   /> */}
+    //   {/* <AddWoman/> */}
+    //   <ListWoman/>
+    // </View>
+
+    <NavigatorContainer/>
+
+  );
+}
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: '#fff',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  image: {
+    width: 72,
+    height: 72,
+    borderRadius: 36,
+  },
+  headerProfileContainer: {
+    flexDirection: "row",
+  },
+  alert: {
+    fontSize: 72,
+    color: 'pink',
+  },
+  alert2: {
+    color: 'purple',
+    fontSize: 72,
+  }
+});
